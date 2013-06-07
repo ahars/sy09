@@ -30,11 +30,14 @@
 \section*{Exercice 2 : Analyse discriminante sur les données \textit{Crabes}.}
 
 \subsection*{1. Expliquer en deux lignes ce que fait chacune des fonctions :}
-\textbf{lda :} Cette fonction sert à effectuer l'analyse discriminante linéaire.\\
-\textbf{qda :} Cette fonction est utilisée pour effectuer l'analyse discriminante quadratique d'une formuled'une matrice
-\textbf{contour}
-\textbf{sample}
-\textbf{predict} et \textbf{predict.la}
+\textbf{lda :} Cette fonction sert à effectuer l'analyse discriminante linéaire qui cherche à détecter sur la matrice de covariance est singulière.\\
+Cette fonction peut être appelée avec en paramètre une formule, un data frame, une matrice.\\
+\textbf{qda :} Cette fonction est utilisée pour effectuer l'analyse discriminante quadratique en utilisant une décomposition QR qui retournera un message d'erreur si la variance du groupe est singulière pour chaque groupe.\\
+\textbf{contour :} Cette fonction est utile pour créer un graphe de contour ou pour ajouter une ligne de contour à un graphe existante.\\
+\textbf{sample :} Cette fonction nous permet de récupérer un échantillon de taille spécifiée d'éléments de l'ensemble X.\\
+\textbf{predict :} Predict() est une fonction générique de prédictions de modèle.\\
+\textbf{predict.lda :} Cette fonction classifie des observations multi-variables en utilisant l'analyse discrimante linéraire.\\
+\textbt{Comparaison entre predict et predict.lda :} predict est générique et predict.lda non.\\ \\
 \subsection*{}
 \subsection*{}
 \subsection*{}
