@@ -4,9 +4,9 @@
 
 library(MASS)
 
-# 1 - équation de la frontière de décision
-# a
+# 1. - Donner une équation de la frontière de décision dans chacun des 5 cas à étudier.
 
+# 2.
 # Fonction de création de l'échantillon.
 simul <- function (n, pi, mu1, mu2, sigma1, sigma2) {
 
@@ -128,5 +128,7 @@ proba3 = erreurEstimee(e3[(n * pi1 + 1):n, ], regleEuclidienne, est3[ ,"mu1"], e
 proba4 = erreurEstimee(e4[(n * pi1 + 1):n, ], regleEuclidienne, est4[ ,"mu1"], est4[ ,"mu2"])
 proba5 = erreurEstimee(e5[(n * pi1 + 1):n, ], regleEuclidienne, est5[ ,"mu1"], est5[ ,"mu2"])
 
-# Exercice 2
+# Pour les trois premières situations, on ajoute le tracé de la frontière de décision.
+# Pour chaque cas de figure, on donne l'expression d'un estimateur de la probabilité d'erreur, ainsi que sa réalisation sur l'échantillon correspondant.
+# On compare avec la probabilité d'erreur théorique lorsqu'on sait la calculer.
 
