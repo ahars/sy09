@@ -20,6 +20,7 @@ D.lda <- lda(D[ ,1:2], D$sex)
 lx1p = seq(min(D$FL1), max(D$FL1), length = len)
 lx2p = seq(min(D$RW1), max(D$RW1), length = len)
 
+png(file = "plots/exo2_simul_1.png")
 plot(D[ ,1:2], col = couleur[D$sex], pch = 20)
 grille = data.frame(expand.grid(FL1 = lx1p, RW1 = lx2p))
 

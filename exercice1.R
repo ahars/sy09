@@ -140,16 +140,16 @@ est4 = matrix(c(0, 0), 2, 2, dimnames = list(c("x", "y"), c("mu1", "mu2")))
 est5 = matrix(c(0, 0), 2, 2, dimnames = list(c("x", "y"), c("mu1", "mu2")))
 
 est1 [, c(1, 2)] = calculMu(e1[1:(n * pi1), ])
-est2 [, c(1, 2)] = calculMu(e2[1:(n * pi1), ])
+est2 [, c(1, 2)] = calculMu(e2[1:(n * pi2), ])
 est3 [, c(1, 2)] = calculMu(e3[1:(n * pi1), ])
-est4 [, c(1, 2)] = calculMu(e4[1:(n * pi1), ])
-est5 [, c(1, 2)] = calculMu(e5[1:(n * pi1), ])
+est4 [, c(1, 2)] = calculMu(e4[1:(n * pi3), ])
+est5 [, c(1, 2)] = calculMu(e5[1:(n * pi3), ])
 
 proba1 = erreurEstimee(e1[(n * pi1 + 1):n, ], regleEuclidienne, est1[ ,"mu1"], est1[ ,"mu2"])
-proba2 = erreurEstimee(e2[(n * pi1 + 1):n, ], regleEuclidienne, est2[ ,"mu1"], est2[ ,"mu2"])
+proba2 = erreurEstimee(e2[(n * pi2 + 1):n, ], regleEuclidienne, est2[ ,"mu1"], est2[ ,"mu2"])
 proba3 = erreurEstimee(e3[(n * pi1 + 1):n, ], regleEuclidienne, est3[ ,"mu1"], est3[ ,"mu2"])
-proba4 = erreurEstimee(e4[(n * pi1 + 1):n, ], regleEuclidienne, est4[ ,"mu1"], est4[ ,"mu2"])
-proba5 = erreurEstimee(e5[(n * pi1 + 1):n, ], regleEuclidienne, est5[ ,"mu1"], est5[ ,"mu2"])
+proba4 = erreurEstimee(e4[(n * pi3 + 1):n, ], regleEuclidienne, est4[ ,"mu1"], est4[ ,"mu2"])
+proba5 = erreurEstimee(e5[(n * pi3 + 1):n, ], regleEuclidienne, est5[ ,"mu1"], est5[ ,"mu2"])
 
 # Pour les trois premières situations, on ajoute le tracé de la frontière de décision.
 # Pour chaque cas de figure, on donne l'expression d'un estimateur de la probabilité d'erreur, ainsi que sa réalisation sur l'échantillon correspondant.
