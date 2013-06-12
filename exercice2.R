@@ -1,7 +1,7 @@
-# SY09 - TP04
-# Bertrand Bon - Antoine Hars
-# Exercice2.R
-# Analyse discriminante sur les données Crabes
+# UV : SY09 - TP04 : Analyses discriminante quadratique et linéaire
+# Exercice 2 : Analyse discriminante sur les données Crabes
+# Auteurs : Bertrand Bon - Antoine Hars
+# Fichier : exercice2.R
 
 library(MASS)
 
