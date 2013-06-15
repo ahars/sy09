@@ -7,7 +7,6 @@ library(MASS)
 
 # 2.
 
-# Analyse discriminante linéaire.
 couleur = c("blue", "red")
 len = 50
 
@@ -15,33 +14,29 @@ crabs$FL1 = crabs$FL / (crabs$FL + crabs$RW + crabs$CL + crabs$CW + crabs$BD)
 crabs$RW1 = crabs$RW / (crabs$FL + crabs$RW + crabs$CL + crabs$CW + crabs$BD)
 D = crabs[ ,c(9, 10, 2)]
 
+# Analyse discriminante linéaire.
 D.lda <- lda(D[ ,1:2], D$sex)
-lx1p = seq(min(D$FL1), max(D$FL1), length = len)
-lx2p = seq(min(D$RW1), max(D$RW1), length = len)
-
-# png(file = "plots/exo2_lda_1.png")
-plot(D[ ,1:2], col = couleur[D$sex], pch = 20)
-grille = data.frame(expand.grid(FL1 = lx1p, RW1 = lx2p))
-# Frontière de décision pour la lda
-ly = predict(D.lda, grille)
-lyp = ly$post[ ,1] - ly$post[ ,2]
-contour(lx1p, lx2p, matrix(lyp, len), add = TRUE, levels = 0, drawlabels = FALSE, col = 'green')
-# dev.off()
 
 # Analyse discriminante quadratique.
 D.qda <- qda(D[ ,1:2], D$sex)
-qx1p = seq(min(D$FL1), max(D$FL1), length = len)
-qx2p = seq(min(D$RW1), max(D$RW1), length = len)
 
-# png(file = "plots/exo2_qda_1.png")
-plot(D[ ,1:2], col = couleur[D$sex], pch = 20)
-grille = data.frame(expand.grid(FL1 = qx1p, RW1 = qx2p))
+# Frontière de décision pour la lda
+ly = predict(D.lda, grille)
+lyp = ly$post[ ,1] - ly$post[ ,2]
+
 # Frontière de décision de la qda
 qy = predict(D.qda, grille)
 qyp = qy$post[ ,1] - qy$post[ ,2]
-contour(qx1p, qx2p, matrix(qyp, len), add = TRUE, levels = 0, drawlabels = FALSE, col = 'magenta')
-# dev.off()
 
+x1p = seq(min(D$FL1), max(D$FL1), length = len)
+x2p = seq(min(D$RW1), max(D$RW1), length = len)
+
+png(file = "plots/exo2_analyse1.png")
+plot(D[ ,1:2], col = couleur[D$sex], pch = 20, main = "Donnees Crabs selon le sexe")
+grille = data.frame(expand.grid(FL1 = x1p, RW1 = x2p))
+contour(x1p, x2p, matrix(lyp, len), add = TRUE, levels = 0, drawlabels = FALSE, col = 'green')
+contour(x1p, x2p, matrix(qyp, len), add = TRUE, levels = 0, drawlabels = FALSE, col = 'magenta')
+dev.off()
 
 # Calcul de l'erreur empirique lda sur l'ensemble d'apprentissage
 n = dim(D)[1]
@@ -68,12 +63,13 @@ ech_crabs1 <- function (data, n) {
 	return (result)
 }
 
-q2 <- function (D, n) {
+repet_esti <- function (D, n, ft_ech) {
 
-	result = matrix(c(0, 0, 0, 0), 4, 4)
+	result = matrix(c(0, 0, 0, 0), 4, 4, dimnames = list(c("a.lda", "a.qda", "t.lda", "t.qda"), c("1", "2", "3", "4")))
 
+	# Répétition du processus de sélection d'exemples et d'estimation d'erreur
 	for (i in 1:4) {
-		r = ech_crabs1(D, n)
+		r = ft_ech(D, n)
 		# 0 = échantillon de test
 		# 1 = échantillon d'apprentissage
 
@@ -88,14 +84,14 @@ q2 <- function (D, n) {
 		ly = predict(a.lda, grille)
 		qy = predict(a.qda, grille)
 
-		n = dim(r[r[ ,4] == 0, ])[1]
+		nn = dim(r[r[ ,4] == 0, ])[1]
 		# Calcul de l'erreur empirique lda sur l'ensemble d'apprentissage
 		ly <- predict(a.lda, r[r[ ,4] == 0, 1:2])
-		a.lda_erreur <- sum(ly$class != r[r[ ,4] == 0, ]$sex) / n
+		a.lda_erreur <- sum(ly$class != r[r[ ,4] == 0, ]$sex) / nn
 
 		# Calcul de l'erreur empirique qda sur l'ensemble d'apprentissage
 		qy <- predict(a.qda, r[r[ ,4] == 0, 1:2])
-		a.qda_erreur <- sum(qy$class != r[r[ ,4] == 0, ]$sex) / n
+		a.qda_erreur <- sum(qy$class != r[r[ ,4] == 0, ]$sex) / nn
 
 
 
@@ -127,7 +123,7 @@ q2 <- function (D, n) {
 	}
 	return(result)
 }
-#tout = q2(D,n)
+question3 = repet_esti(D, n, ech_crabs1)
 
 
 # 4.
@@ -139,6 +135,7 @@ ech_crabs2 <- function (data, n) {
 	result = cbind(data[ ,1:3], rand)
 	return (result)
 }
+question4_1 = repet_esti(D, n, ech_crabs2)
 
 # 1/3 au hasard
 ech_crabs3 <- function (data, n) {
@@ -154,7 +151,7 @@ ech_crabs3 <- function (data, n) {
 	result = cbind(data[ ,1:3], rand)
 	return (result)
 }
-
+question4_2 = repet_esti(D, n, ech_crabs3)
 
 
 

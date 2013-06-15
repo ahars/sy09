@@ -87,38 +87,39 @@ Pour chaque cas de figure, nous avons déterminé l'expression d'un estimateur d
 ainsi que sa réalisation sur l'échantillon correspondant :\\
 % TODO expression d'un estimateur de la probabilité d'erreur
 Sa réalisation sur les échantillons nous donne les valeur suivantes :\\ \\
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|}
 \hline
-population & $\mu_{1}$ & $\mu_{2}$ & Probabilité d'erreur ($\%$) \\
+population & $\mu_{1}$ & $\mu_{2}$ & Erreur estimée ($\%$) & Erreur théorique ($\%$) \\
 \hline
-1 & (-0.028, -0.093) & (1.062, 0.981) & 27.6 \\
+1 & $\begin{pmatrix} -0.028 \\ -0.093 \end{pmatrix}$ & $\begin{pmatrix} 1.062 \\ 0.981 \end{pmatrix}$ & 27.6 & NA \\
 \hline
-2 & (0.346, 0.006) & (1.015, 0.982) & 31.1 \\
+2 & $\begin{pmatrix} 0.346 \\ 0.006 \end{pmatrix}$ & $\begin{pmatrix} 1.015 \\ 0.982 \end{pmatrix}$ & 31.1 & NA \\
 \hline
-3 & (-0.063, -0.045) & (1.036, 0.915) & 30.6 \\
+3 & $\begin{pmatrix} -0.063 \\ -0.045 \end{pmatrix}$ & $\begin{pmatrix} 1.036 \\ 0.915 \end{pmatrix}$ & 30.6 & NA \\
 \hline
-4 & (1.018, 0.919) & (1.221, 0.965) & 49 \\
+4 & $\begin{pmatrix} 1.018 \\ 0.919 \end{pmatrix}$ & $\begin{pmatrix} 1.221 \\ 0.965 \end{pmatrix}$ & 49 & NA \\
 \hline
-5 & (-0.127, -0.018) & (1.001, 1.002) & 28.2 \\
+5 & $\begin{pmatrix} -0.127 \\ -0.018 \end{pmatrix}$ & $\begin{pmatrix} 1.001 \\ 1.002 \end{pmatrix}$ & 28.2 & NA \\
 \hline
 \end{tabular}
 $\\ \\$
 Cela nous a permis de le comparer avec la probabilité d'erreur théorique.
 % TODO probabilité d'erreur théorique
 
-$\\ \\$
+\newpage
 \section*{Exercice 2 : Analyse discriminante sur les données \textit{Crabes}.}
-Dans cet exercice, nous désirons utiliser l'analyse discriminante linéaire et l'analyse discriminante quadratique sur les données \textbf{crabs}
+Dans cet exercice, nous désirons utiliser l'analyse discriminante linéaire et l'analyse discriminante\\quadratique sur les données \textit{crabs}
 afin de déterminer une fonction permettant de distinguer le sexe à partir des mesures \textit{FL} et \textit{RW}.\\
 
 \subsection*{1. Expliquer ce que font les fonctions suivantes :}
 \textbf{lda :} La fonction lda sert à effectuer l'analyse discriminante linéaire de données
-(elle prend en paramètre une formule, un data frame ou une matrice).\\
+(elle prend en paramètre une formule, un data frame ou une matrice).
 Elle cherche à détecter si la matrice de covariance d'une classe est singulière.\\ \\
 \textbf{qda :} Cette fonction est utilisée pour exécuter une analyse discriminante quadratique sur des données
 en utilisant une décomposition QR qui retournera un message d'erreur si la variance du groupe est singulière pour chaque groupe.\\ \\
 \textbf{contour :} Il s'agit d'une fonction générique utile pour créer un graphe de contour ou
-pour ajouter des lignes de contour à un graphe existant.\\ \\
+pour ajouter des lignes de contour à un graphe existant.
+Dans notre cas, elle est utile pour tracer les frontières de décision sur nos graphiques\\ \\
 \textbf{sample :} Cette fonction nous permet de récupérer un échantillon de taille spécifiée d'éléments de l'ensemble X
 en remettant en place ou non les éléments.\\ \\
 \textbf{predict :} Predict() est une fonction générique de prédictions à partir des résultats des diverses fonctions de création de modèles.
@@ -126,13 +127,37 @@ La forme retournée dépend de la classe entrée en paramètre.\\ \\
 \textbf{predict.lda :} Cette fonction classifie des observations multi-variables en utilisant l'analyse discrimante linéraire et
 projette les données sur les discriminantes linéaires.
 Cette fonction centre les discriminants linéaires de sorte que le nombre moyen pondéré des centres de gravité du groupe soit à l'origine.\\ \\
-\textbf{Comparaison entre predict et predict.lda :} predict.lda est une méthode de la fonction générique predict pour la class lda.
+\textbf{Comparaison entre predict et predict.lda :} predict.lda() est une méthode de la fonction générique predict() pour la classe \textit{lda}.
 On peut soit appeler predict() sur une classe lda d'un objet spécifié ou
 appeler la fonction predict.lda() sans se soucier de la classe de l'objet.\\ \\
 
-\subsection*{2.}
+\subsection*{2. L'analyse discriminante quadratique et l'analyse discriminante linéaire des données \textit{crabs}}
+Nous avons d'abord effectué ces deux analyses sur les données \textit{crabs} en prenant comme échantillon d'apprentissage l'ensemble des données.\\
+nous avons ensuite tracé les frontières de décision que nous avons obtenu (verte pour la lda et magenta pour la qda) :\\
+\includegraphics[height = 7cm, width = 7cm]{plots/exo2_analyse1.png}\\
+Nous pouvons remarquer sur le graphique que les frontières de décision de chacune des deux analyses discriminantes sont sensiblement différentes,
+et que certaines valeurs des données ne sont donc pas du même côté par rapport aux deux frontières.\\ \\
+Nous avons donc calculé les estimations d'erreur sur cet échantillon d'apprentissage pour les deux\\analyses :\\ \\
+\begin{tabular}{|c|c|}
+\hline
+Type d'analyse & Estimation d'erreur ($\%$) \\
+\hline
+lda & 9.5 \\
+\hline
+qda & 8.5\\
+\hline
+\end{tabular}
+$\\ \\ \\$
+Nous pouvons observer d'après ces deux valeurs que l'analyse discrimante linéaire semble moins précise que l'analyse discrimante quadratique
+vu que la probabilité d'erreur pour la première est plus grande que la seconde.\\
+Pour notre jeu de données, nous pouvons dire que les crabes ont sensiblement plus de chances d'être mieux classés avec l'analyse discrimante
+quadratique qu'avec l'analyse discrimante linéaire.\\ \\
 
-\subsection*{3.}
+\subsection*{3. Estimation des erreurs de classification sur un ensemble d'apprentissage (2/3 des exemples au hasard)
+et un ensemble de test (1/3 restants)}
+Dans un premier temps, nous nous sommes chargés de répartir aléatoirement les données \textit{crabs} afin d'obtenir nos échantillons
+d'apprentissage et de test puis d'établir les probabilités d'erreur sur les analyses discriminantes quadratique et linéaires
+sur les deux échantillons.
 
 \subsection*{4. }
 
