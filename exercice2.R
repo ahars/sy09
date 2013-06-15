@@ -15,31 +15,33 @@ crabs$FL1 = crabs$FL / (crabs$FL + crabs$RW + crabs$CL + crabs$CW + crabs$BD)
 crabs$RW1 = crabs$RW / (crabs$FL + crabs$RW + crabs$CL + crabs$CW + crabs$BD)
 D = crabs[ ,c(9, 10, 2)]
 
-
 D.lda <- lda(D[ ,1:2], D$sex)
 lx1p = seq(min(D$FL1), max(D$FL1), length = len)
 lx2p = seq(min(D$RW1), max(D$RW1), length = len)
 
-png(file = "plots/exo2_simul_1.png")
+# png(file = "plots/exo2_lda_1.png")
 plot(D[ ,1:2], col = couleur[D$sex], pch = 20)
 grille = data.frame(expand.grid(FL1 = lx1p, RW1 = lx2p))
-
+# Frontière de décision pour la lda
 ly = predict(D.lda, grille)
 lyp = ly$post[ ,1] - ly$post[ ,2]
 contour(lx1p, lx2p, matrix(lyp, len), add = TRUE, levels = 0, drawlabels = FALSE, col = 'green')
-
+# dev.off()
 
 # Analyse discriminante quadratique.
 D.qda <- qda(D[ ,1:2], D$sex)
 qx1p = seq(min(D$FL1), max(D$FL1), length = len)
 qx2p = seq(min(D$RW1), max(D$RW1), length = len)
 
+# png(file = "plots/exo2_qda_1.png")
 plot(D[ ,1:2], col = couleur[D$sex], pch = 20)
 grille = data.frame(expand.grid(FL1 = qx1p, RW1 = qx2p))
-
+# Frontière de décision de la qda
 qy = predict(D.qda, grille)
 qyp = qy$post[ ,1] - qy$post[ ,2]
 contour(qx1p, qx2p, matrix(qyp, len), add = TRUE, levels = 0, drawlabels = FALSE, col = 'magenta')
+# dev.off()
+
 
 # Calcul de l'erreur empirique lda sur l'ensemble d'apprentissage
 n = dim(D)[1]
@@ -50,10 +52,96 @@ erreur.lda <- sum(ly$class != D$sex) / n
 qy <- predict(D.qda, D[ ,1:2])
 erreur.qda <- sum(qy$class != D$sex) / n
 
-
 # 3.
 # Fonction de création des échantillons d'apprentissage et de test (2/3 au hasard).
-ech_crabs <- function (data, n) {
+ech_crabs1 <- function (data, n) {
+
+	rand = sample(0:2, n, replace = TRUE)
+	
+	for (k in 1:n) {
+		if (rand[k] == 2) {
+			rand[k] = 0
+		}
+	}
+
+	result = cbind(data[ ,1:3], rand)
+	return (result)
+}
+
+q2 <- function (D, n) {
+
+	result = matrix(c(0, 0, 0, 0), 4, 4)
+
+	for (i in 1:4) {
+		r = ech_crabs1(D, n)
+		# 0 = échantillon de test
+		# 1 = échantillon d'apprentissage
+
+		# Estimation d'erreur sur l'échantillon d'apprentissage
+		a.lda = lda(r[r[ ,4] == 0, 1:2], r[r[ ,4] == 0, ]$sex)
+		a.qda = qda(r[r[ ,4] == 0, 1:2], r[r[ ,4] == 0, ]$sex)
+
+		x1p = seq(min(r[r[ ,4] == 0, ]$FL1), max(r[r[ ,4] == 0, ]$FL1), length = len)
+		x2p = seq(min(r[r[ ,4] == 0, ]$RW1), max(r[r[ ,4] == 0, ]$RW1), length = len)
+
+		grille = data.frame(expand.grid(FL1 = x1p, RW1 = x2p))
+		ly = predict(a.lda, grille)
+		qy = predict(a.qda, grille)
+
+		n = dim(r[r[ ,4] == 0, ])[1]
+		# Calcul de l'erreur empirique lda sur l'ensemble d'apprentissage
+		ly <- predict(a.lda, r[r[ ,4] == 0, 1:2])
+		a.lda_erreur <- sum(ly$class != r[r[ ,4] == 0, ]$sex) / n
+
+		# Calcul de l'erreur empirique qda sur l'ensemble d'apprentissage
+		qy <- predict(a.qda, r[r[ ,4] == 0, 1:2])
+		a.qda_erreur <- sum(qy$class != r[r[ ,4] == 0, ]$sex) / n
+
+
+
+		# Estimation d'erreur sur l'échantillon de test
+		t.lda = lda(r[r[ ,4] == 1, 1:2], r[r[ ,4] == 1, ]$sex)
+		t.qda = qda(r[r[ ,4] == 1, 1:2], r[r[ ,4] == 1, ]$sex)
+
+		x3p = seq(min(r[r[ ,4] == 1, ]$FL1), max(r[r[ ,4] == 1, ]$FL1), length = len)
+		x4p = seq(min(r[r[ ,4] == 1, ]$RW1), max(r[r[ ,4] == 1, ]$RW1), length = len)
+
+		grille = data.frame(expand.grid(FL1 = x3p, RW1 = x4p))
+		ly = predict(t.lda, grille)
+		qy = predict(t.qda, grille)
+	
+		nn = dim(r[r[ ,4] == 1, ])[1]
+		# Calcul de l'erreur empirique lda sur l'ensemble d'apprentissage
+		ly <- predict(t.lda, r[r[ ,4] == 1, 1:2])
+		t.lda_erreur <- sum(ly$class != r[r[ ,4] == 1, ]$sex) / nn
+
+		# Calcul de l'erreur empirique qda sur l'ensemble d'apprentissage
+		qy <- predict(t.qda, r[r[ ,4] == 1, 1:2])
+		t.qda_erreur <- sum(qy$class != r[r[ ,4] == 1, ]$sex) / nn
+
+		result[1, i] = a.lda_erreur
+		result[2, i] = a.qda_erreur
+		result[3, i] = t.lda_erreur
+		result[4, i] = t.qda_erreur
+
+	}
+	return(result)
+}
+#tout = q2(D,n)
+
+
+# 4.
+
+# 1/2 au hasard
+ech_crabs2 <- function (data, n) {
+
+	rand = sample(0:1, n, replace = TRUE)
+	result = cbind(data[ ,1:3], rand)
+	return (result)
+}
+
+# 1/3 au hasard
+ech_crabs3 <- function (data, n) {
 
 	rand = sample(0:2, n, replace = TRUE)
 	
@@ -66,11 +154,8 @@ ech_crabs <- function (data, n) {
 	result = cbind(data[ ,1:3], rand)
 	return (result)
 }
-r = ech_crabs(D, n)
 
 
-
-# 4.
 
 
 # ANNEXE.
@@ -86,3 +171,11 @@ r = ech_crabs(D, n)
 # pour chaque point de la grille, on calcule la valeur prise par la fonction
 # la fonction contour va regarder les points qui sont autour d'une valeur donnée et va interpoler ces points pour les relier.
 # Fonction surface pour faire la même chose en 3D.
+
+# r[r[ ,4] == 0, 1:2]
+# r[r[ ,4] == 1, 1:2]
+# la dimension de l'échantillon 1 dim(r[r[ ,4] == 1, 1:2])[1]
+# la dimension de l'échantillon 0 dim(r[r[ ,4] == 0, 1:2])[1]
+
+
+
