@@ -91,15 +91,15 @@ Sa réalisation sur les échantillons nous donne les valeur suivantes :\\ \\
 \hline
 population & $\mu_{1}$ & $\mu_{2}$ & Erreur estimée ($\%$) & Erreur théorique ($\%$) \\
 \hline
-1 & $\begin{pmatrix} -0.028 \\ -0.093 \end{pmatrix}$ & $\begin{pmatrix} 1.062 \\ 0.981 \end{pmatrix}$ & 27.6 & NA \\
+1 & (-0.028, -0.093) & (1.062, 0.981) & 27.6 & NA \\
 \hline
-2 & $\begin{pmatrix} 0.346 \\ 0.006 \end{pmatrix}$ & $\begin{pmatrix} 1.015 \\ 0.982 \end{pmatrix}$ & 31.1 & NA \\
+2 & (0.346, 0.006) & (1.015, 0.982) & 31.1 & NA \\
 \hline
-3 & $\begin{pmatrix} -0.063 \\ -0.045 \end{pmatrix}$ & $\begin{pmatrix} 1.036 \\ 0.915 \end{pmatrix}$ & 30.6 & NA \\
+3 & (-0.063, -0.045) & (1.036, 0.915) & 30.6 & NA \\
 \hline
-4 & $\begin{pmatrix} 1.018 \\ 0.919 \end{pmatrix}$ & $\begin{pmatrix} 1.221 \\ 0.965 \end{pmatrix}$ & 49 & NA \\
+4 & (1.018, 0.919) & (1.221, 0.965) & 49 & NA \\
 \hline
-5 & $\begin{pmatrix} -0.127 \\ -0.018 \end{pmatrix}$ & $\begin{pmatrix} 1.001 \\ 1.002 \end{pmatrix}$ & 28.2 & NA \\
+5 & (-0.127, -0.018) & (1.001, 1.002) & 28.2 & NA \\
 \hline
 \end{tabular}
 $\\ \\$
@@ -131,7 +131,7 @@ Cette fonction centre les discriminants linéaires de sorte que le nombre moyen 
 On peut soit appeler predict() sur une classe lda d'un objet spécifié ou
 appeler la fonction predict.lda() sans se soucier de la classe de l'objet.\\ \\
 
-\subsection*{2. L'analyse discriminante quadratique et l'analyse discriminante linéaire des données \textit{crabs}}
+\subsection*{2. L'analyse discriminante quadratique et l'analyse discriminante linéaire des données \textit{crabs} :}
 Nous avons d'abord effectué ces deux analyses sur les données \textit{crabs} en prenant comme échantillon d'apprentissage l'ensemble des données.\\
 nous avons ensuite tracé les frontières de décision que nous avons obtenu (verte pour la lda et magenta pour la qda) :\\
 \includegraphics[height = 7cm, width = 7cm]{plots/exo2_analyse1.png}\\
@@ -146,22 +146,120 @@ lda & 9.5 \\
 \hline
 qda & 8.5\\
 \hline
-\end{tabular}
-$\\ \\ \\$
+\end{tabular}\\
+\textit{Ensemble d'apprentissage (la totalité des exemples)}\\ \\
 Nous pouvons observer d'après ces deux valeurs que l'analyse discrimante linéaire semble moins précise que l'analyse discrimante quadratique
 vu que la probabilité d'erreur pour la première est plus grande que la seconde.\\
 Pour notre jeu de données, nous pouvons dire que les crabes ont sensiblement plus de chances d'être mieux classés avec l'analyse discrimante
 quadratique qu'avec l'analyse discrimante linéaire.\\ \\
 
 \subsection*{3. Estimation des erreurs de classification sur un ensemble d'apprentissage (2/3 des exemples au hasard)
-et un ensemble de test (1/3 restants)}
+et un ensemble de test (1/3 restants) :}
 Dans un premier temps, nous nous sommes chargés de répartir aléatoirement les données \textit{crabs} afin d'obtenir nos échantillons
-d'apprentissage et de test puis d'établir les probabilités d'erreur sur les analyses discriminantes quadratique et linéaires
-sur les deux échantillons.
+d'apprentissage et de test puis d'établir les probabilités d'erreur sur les\\analyses discriminantes quadratique et linéaires
+sur les deux échantillons.\\ \\
+Nous avons répété ces opérations 4 fois, ce qui nous donne les estimations d'erreur suivantes :\\ \\
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Ensemble d'apprentissage} & \multicolumn{4}{|c|}{Estimation d'erreur ($\%$)} \\
+\hline
+Type d'analyse & Éch n°1 & Éch n°2 & Éch n°3 & Éch n°4 \\
+\hline
+lda & 10.17 & 9.85 & 8.82 & 6.72 \\
+\hline
+qda & 7.63 & 7.58 & 7.35 & 8.4 \\
+\hline
+\end{tabular}\\
+\textit{Ensemble d'apprentissage (2/3 des exemples au hasard)}\\ \\
+Pour les échantillons d'apprentissage, nous pouvons remarquer que dans la majorité des cas,
+l'analyse discriminante quadratique semble plus précise.
+Cependant, dans notre dernier cas, l'analyse discriminante linéaire s'est montrée plus précise que la quadratique.\\ \\ \\
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Ensemble de test} & \multicolumn{4}{|c|}{Estimation d'erreur ($\%$)} \\
+\hline
+Type d'analyse & Éch n°1 & Éch n°2 & Éch n°3 & Éch n°4 \\
+\hline
+lda & 9.76 & 10.29 & 9.37 & 13.58 \\
+\hline
+qda & 8.54 & 8.82 & 7.81 & 8.64 \\
+\hline
+\end{tabular}\\
+\textit{Ensemble de test (1/3 des exemples au hasard)}\\ \\
+Pour la partie de test, il est possible aussi d'affirmer que l'analyse discrimante linéaire a plus de probabilité de faire des erreurs
+dans la répartition des crabes dans les classes \textit{F} et \textit{M}.\\ \\
+D'après la répétition du cacul des estimations de classification des crabes, nous pouvons dire que les deux analyses rangent les crabes
+avec une estimation d'erreur quelque peu différentes.
+L'analyse discrimante quadratique semble plus précise, comme vu dans la question précédente, que l'analyse discriminante linéaire,
+mais il n'est pas possible de dire que cette dernière donnera forcément de moins bons résultats que la première.
 
-\subsection*{4. }
+\newpage
+\subsection*{4. Répétition du calcul précédent en modifiant les proportions de\\découpage :}
+\begin{tabbing}
+Afin \= de répéter le calcul précédent en modifiant les proportions de découpage, nous avons choisi les proportions\\suivantes :\\
+\> - 1/2 dans un premier temps.\\
+\> - 4/5 dans un second temps.
+\end{tabbing}
+De plus, nous avons veiller à réaliser l'opération d'estimation d'erreur plusieurs fois pour obtenir diverses valeurs de probabilité :\\ \\
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Ensemble d'apprentissage} & \multicolumn{4}{|c|}{Estimation d'erreur ($\%$)} \\
+\hline
+Type d'analyse & Éch n°1 & Éch n°2 & Éch n°3 & Éch n°4 \\
+\hline
+lda & 11.96 & 10 & 6.36 & 6.25 \\
+\hline
+qda & 9.78 & 6.67 & 5.45 & 5.21 \\
+\hline
+\end{tabular}\\
+\textit{Ensemble d'apprentissage (1/2 des exemples au hasard)}\\ \\
+L'estimation des erreurs de classification pour ce cas rejoint les observations précédentes,
+à savoir que l'analyse discriminante quadratique semble plus précise que l'analyse discriminante linéaire.\\ \\
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Ensemble de test} & \multicolumn{4}{|c|}{Estimation d'erreur ($\%$)} \\
+\hline
+Type d'analyse & Éch n°1 & Éch n°2 & Éch n°3 & Éch n°4 \\
+\hline
+lda & 6.48 & 8.18 & 11.11 & 9.61 \\
+\hline
+qda & 5.56 & 4.54 & 11.11 & 9.61 \\
+\hline
+\end{tabular}\\
+\textit{Ensemble de test (1/2 des exemples au hasard)}\\ \\
+Grâce à cet ensemble de test, il est possible de dire que dans certains cas, il y a autant de chances que l'analyse discriminante quadratique
+soit assujettie aux mêmes erreurs de classification des éléments des données que l'analyse discriminante linéaire
+(au vu des deux derniers échantillons).\\ \\
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Ensemble d'apprentissage} & \multicolumn{4}{|c|}{Estimation d'erreur ($\%$)} \\
+\hline
+Type d'analyse & Éch n°1 & Éch n°2 & Éch n°3 & Éch n°4 \\
+\hline
+lda & 11.51 & 10 & 10.71 & 7.36 \\
+\hline
+qda & 9.70 & 7.06 & 8.33 & 6.75 \\
+\hline
+\end{tabular}\\
+\textit{Ensemble d'apprentissage (4/5 des exemples au hasard)}\\ \\
+L'estimation des erreurs de classification pour cet ensemble d'apprentissage nous donne les mêmes observations que pour les cas précédents.\\ \\
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Ensemble de test} & \multicolumn{4}{|c|}{Estimation d'erreur ($\%$)} \\
+\hline
+Type d'analyse & Éch n°1 & Éch n°2 & Éch n°3 & Éch n°4 \\
+\hline
+lda & 0 & 3.33 & 6.25 & 8.11 \\
+\hline
+qda & 0 & 3.33 & 0 & 5.40 \\
+\hline
+\end{tabular}\\
+\textit{Ensemble de test (1/5 des exemples au hasard)}\\ \\
+Pour des groupes faibles d'éléments, les analyse discriminantes quadratique et linéaire peuvent avoir une probabilité d'erreur de classification
+proche de zéro ou au contraire avoir une probabilité d'erreur proche de celle pour un grand nombre d'exemple
+(le dernier échantillon tiré au hasard).\\ \\
 
-\section*{Exercice 3 : }
+\section*{Exercice 3 :}
 
 \subsection*{}
 \subsection*{}
