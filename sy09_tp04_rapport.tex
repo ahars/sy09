@@ -26,55 +26,83 @@ On suppose que la population est répartie en deux classes, en proportions $\pi_
 issues des distributions gaussiennes bivariées $\mathcal{N}(\mu_{1}, \Sigma_{1})$ et $\mathcal{N}(\mu_{1}, \Sigma_{1})$.\\
 
 \subsection*{1. Donner une équation de la frontière de décision de la règle de Bayes dans chacun des cas suivants :}
-
+Pour le calcul de ces équation de la frontière de décision de la \textbf{règle de Bayes} pour les cas suivants,
+nous nous sommes basés sur les fonctions discriminantes.\\
+Elles nous donnent, dans le cas des coûts {0, 1}, la \textbf{règle de Bayes} s'écrivant de la manière suivante :\\
+$g$*(x) = $\omega_{k*}$ avec $k$* = arg $\underset{k}{max}$ $g_{k}$(x), avec\\
+\begin{align*}
+g_{k}(x) &= ln f_{k}(x) + ln \pi_{k}\\
+ 	 &= -\frac{1}{2}(x - \mu_{k})' \Sigma_{k}^{-1} (x - \mu_{k}) - \frac{1}{2} ln(det \Sigma_{k}) + ln \pi_{k} - \frac{p}{2} ln(2\pi)
+\end{align*}
 \subsubsection*{(a) $\pi_{1}$ = 0.5, $\mu_{1}$ = (0,0)´, $\mu_{2}$ = (1,1)´, $\Sigma_{1}$ = $\Sigma_{2}$ =
 $\begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$ :}
-% TODO
+\begin{align*}
+g_{1}(x) &= -\frac{1}{2} ((x_{1}, x_{2}) - (0, 0)')' \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} ((x_{1}, x_{2}) - (0, 0)') -
+\frac{1}{2} ln(1) + ln(0.5) - \frac{2}{2} ln(2\pi)\\
+	 &= -\frac{1}{2} (x_{1}² + x_{2}²) + ln(0.5) - ln(2 \pi)\\ \\
+g_{2}(x) &= -\frac{1}{2} ((x_{1}, x_{2}) - (1, 1)')' \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} ((x_{1}, x_{2}) - (1, 1)') -
+\frac{1}{2} ln(1) + ln(0.5) - \frac{2}{2} ln(2\pi)\\
+	 &= -\frac{1}{2} ((x_{1} - 1)² + (x_{2} - 1)²) + ln(0.5) - ln(2 \pi)\\ \\
+g_{1}(x) = g_{2}(x) &\Leftrightarrow (x_{1}² + x_{2}²) = (x_{1} - 1)² + (x_{2} - 1)² \Leftrightarrow x_{1} + x_{2} = 1
+\Leftrightarrow x_{1} = 1 - x_{2}
+\end{align*}\\
 
 \subsubsection*{(b) $\pi_{1}$ = 0.1, $\mu_{1}$ = (0,0)´, $\mu_{2}$ = (1,1)´, $\Sigma_{1}$ = $\Sigma_{2}$ =
 $\begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$ :}
-% TODO
+\begin{align*}
+g_{1}(x) &= -\frac{1}{2} ((x_{1}, x_{2}) - (0, 0)')' \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} ((x_{1}, x_{2}) - (0, 0)') -
+\frac{1}{2} ln(1) + ln(0.1) - \frac{2}{2} ln(2\pi)\\
+	 &= -\frac{1}{2} (x_{1}² + x_{2}²) + ln(0.1) - ln(2 \pi)\\ \\
+g_{2}(x) &= -\frac{1}{2} ((x_{1}, x_{2}) - (1, 1)')' \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} ((x_{1}, x_{2}) - (1, 1)') -
+\frac{1}{2} ln(1) + ln(0.9) - \frac{2}{2} ln(2\pi)\\
+	 &= -\frac{1}{2} ((x_{1} - 1)² + (x_{2} - 1)²) + ln(0.9) - ln(2 \pi)\\ \\
+g_{1}(x) = g_{2}(x) &\Leftrightarrow  x_{1} = 1 - x_{2} - ln(9)
+\end{align*}\\
 
 \subsubsection*{(c) $\pi_{1}$ = 0.5, $\mu_{1}$ = (0,0)´, $\mu_{2}$ = (1,1)´, $\Sigma_{1}$ = $\Sigma_{2}$ =
 $\begin{pmatrix} 1 & -0.3 \\ -0.3 & 1 \end{pmatrix}$ :}
-% TODO
+\begin{align*}
+\Sigma_{1}^{-1} &= \Sigma_{2}^{-1} = \frac{1}{0.91} \begin{pmatrix} 1 & 0.3 \\ 0.3 & 1 \end{pmatrix}\\
+g_{1}(x) &= -\frac{1}{2} \frac{1}{0.91} ((x_{1}, x_{2}) - (0, 0)')' \begin{pmatrix} 1 & 0.3 \\ 0.3 & 1 \end{pmatrix}
+((x_{1}, x_{2}) - (0, 0)') - \frac{1}{2} ln(1) + ln(0.5) - \frac{2}{2} ln(2\pi)\\
+	 &= -\frac{1}{2} \frac{1}{0.91} (x_{1}² + 0.6x_{1}x_{2} + x_{2}²) + ln(0.5) - ln(2 \pi)\\ \\
+g_{2}(x) &= -\frac{1}{2} \frac{1}{0.91} ((x_{1}, x_{2}) - (1, 1)')' \begin{pmatrix} 1 & 0.3 \\ 0.3 & 1 \end{pmatrix}
+((x_{1}, x_{2}) - (1, 1)') - \frac{1}{2} ln(1) + ln(0.5) - \frac{2}{2} ln(2\pi)\\
+	 &= -\frac{1}{2} \frac{1}{0.91} ((x_{1} - 1)² + (x_{2} - 1)² + 0.6 (x_{1} - 1)(x_{2} - 1)) + ln(0.5) - ln(2 \pi)\\ \\
+g_{1}(x) = g_{2}(x) &\Leftrightarrow (x_{1}² + x_{2}²) = (x_{1} - 1)² + (x_{2} - 1)² \Leftrightarrow x_{1} + x_{2} = 1
+\Leftrightarrow x_{1} = 1 - x_{2}
+\end{align*}\\
 
 \subsubsection*{(d) $\pi_{1}$ = 0.6, $\mu_{1}$ = $\mu_{2}$ = (1,1)´, $\Sigma_{1}$ = $\begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$,
 $\Sigma_{2}$ =  $\begin{pmatrix} 5 & 0 \\ 0 & 5 \end{pmatrix}$ :}
-% TODO
+\begin{align*}
+\Sigma_{1}^{-1} &= \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}, \Sigma_{2}^{-1} = \frac{1}{5} \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}\\
+g_{1}(x) &= -\frac{1}{2} ((x_{1}, x_{2}) - (1, 1)')' \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} ((x_{1}, x_{2}) - (1, 1)') -
+\frac{1}{2} ln(1) + ln(0.6) - \frac{2}{2} ln(2\pi)\\
+	 &= -\frac{1}{2} ((x_{1} - 1)² + (x_{2} - 1)²) + ln(0.6) - ln(2 \pi)\\ \\
+g_{2}(x) &= -\frac{1}{2} \frac{1}{5} ((x_{1}, x_{2}) - (1, 1)')' \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} ((x_{1}, x_{2}) - (1, 1)') -
+\frac{1}{2} ln(1) + ln(0.4) - \frac{2}{2} ln(2\pi)\\
+	 &= -\frac{1}{10} ((x_{1} - 1)² + (x_{2} - 1)²) + ln(0.4) - ln(2 \pi)\\ \\
+g_{1}(x) = g_{2}(x) &\Leftrightarrow (x_{1} - 1)² + (x_{2} - 1)² = \frac{5}{2} ln(\frac{3}{2})
+\end{align*}\\
 
 \subsubsection*{(e) $\pi_{1}$ = 0.6, $\mu_{1}$ = (0,0)´, $\mu_{2}$ = (1,1)´, $\Sigma_{1}$ = $\begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$,
 $\Sigma_{2}$ = $\begin{pmatrix} 1 & 0.5 \\ 0.5 & 1 \end{pmatrix}$ :}
-% TODO
+\begin{align*}\\
+g_{1}(x) &= -\frac{1}{2} ((x_{1}, x_{2}) - (0, 0)')' \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} ((x_{1}, x_{2}) - (0, 0)') -
+\frac{1}{2} ln(1) + ln(0.5) - \frac{2}{2} ln(2\pi)\\
+	 &= -\frac{1}{2} (x_{1}² + x_{2}²) + ln(0.5) - ln(2 \pi)\\ \\
+g_{2}(x) &= -\frac{1}{2} ((x_{1}, x_{2}) - (1, 1)')' \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} ((x_{1}, x_{2}) - (1, 1)') -
+\frac{1}{2} ln(1) + ln(0.5) - \frac{2}{2} ln(2\pi)\\
+	 &= -\frac{1}{2} ((x_{1} - 1)² + (x_{2} - 1)²) + ln(0.5) - ln(2 \pi)\\ \\
+g_{1}(x) = g_{2}(x) &\Leftrightarrow (x_{1}² + x_{2}²) = (x_{1} - 1)² + (x_{2} - 1)² \Leftrightarrow x_{1} + x_{2} = 1
+\Leftrightarrow x_{1} = 1 - x_{2}
+\end{align*}
+Nous pouvons remarquer que les équations des trois premiers cas sont des droites.\\ \\
 
-$\\ \\$
 \subsection*{2. Simulation de la règle de Bayes dans R :}
 Pour chacune des cinq populations précédentes, en utilisant la fonction \textit{simul} réalisée au TD3 (Théorie de la décision),
-nous avons généré un échantillon de taille \textit{n} = 1000.\\
-Pour rappel, le code de la fonction \textit{simul} est comme suit :\\
-\begin{verbatim}
-simul <- function (n, pi, mu1, mu2, sigma1, sigma2) {
-
-  # On crée la matrice contenant l'échantillon résultat de la fonction.
-  result = matrix(nrow = n, ncol = 3)
-
-  # Affectation de chaque élément de l'échantillon final à la classe 0 ou 1.
-  for (k in 1:n) {
-
-    rand = sample(0:1, 1)
-    result[k, 3] = rand
-
-    if (result[k, 3] == 0) {
-      result[k, c(1, 2)] = mvrnorm(1, mu1, sigma1)
-    } else {
-      result[k, c(1, 2)] = mvrnorm(1, mu2, sigma2)
-    }
-  }
-
-  return (result)
-}
-\end{verbatim}
-$\\ \\$
+nous avons généré un échantillon de taille \textit{n} = 1000.\\ \\
 Pour chacun des échantillons de population, nous avons tracé les nuages suivants associés,
 avec le tracé de la frontière de décision pour les trois premiers cas :\\
 \includegraphics[height = 7cm, width = 7cm]{plots/exo1_simul_1.png}
