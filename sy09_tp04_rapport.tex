@@ -88,18 +88,22 @@ g_{1}(x) = g_{2}(x) &\Leftrightarrow (x_{1} - 1)² + (x_{2} - 1)² = \frac{5}{2}
 
 \subsubsection*{(e) $\pi_{1}$ = 0.6, $\mu_{1}$ = (0,0)´, $\mu_{2}$ = (1,1)´, $\Sigma_{1}$ = $\begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$,
 $\Sigma_{2}$ = $\begin{pmatrix} 1 & 0.5 \\ 0.5 & 1 \end{pmatrix}$ :}
-\begin{align*}\\
+\begin{align*}
+\Sigma_{1}^{-1} &= \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix},
+\Sigma_{2}^{-1} = \frac{1}{0.75} \begin{pmatrix} 1 & -0.5 \\ -0.5 & 1 \end{pmatrix}\\
 g_{1}(x) &= -\frac{1}{2} ((x_{1}, x_{2}) - (0, 0)')' \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} ((x_{1}, x_{2}) - (0, 0)') -
-\frac{1}{2} ln(1) + ln(0.5) - \frac{2}{2} ln(2\pi)\\
-	 &= -\frac{1}{2} (x_{1}² + x_{2}²) + ln(0.5) - ln(2 \pi)\\ \\
-g_{2}(x) &= -\frac{1}{2} ((x_{1}, x_{2}) - (1, 1)')' \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} ((x_{1}, x_{2}) - (1, 1)') -
-\frac{1}{2} ln(1) + ln(0.5) - \frac{2}{2} ln(2\pi)\\
-	 &= -\frac{1}{2} ((x_{1} - 1)² + (x_{2} - 1)²) + ln(0.5) - ln(2 \pi)\\ \\
-g_{1}(x) = g_{2}(x) &\Leftrightarrow (x_{1}² + x_{2}²) = (x_{1} - 1)² + (x_{2} - 1)² \Leftrightarrow x_{1} + x_{2} = 1
-\Leftrightarrow x_{1} = 1 - x_{2}
-\end{align*}
-Nous pouvons remarquer que les équations des trois premiers cas sont des droites.\\ \\
+\frac{1}{2} ln(1) + ln(0.6) - \frac{2}{2} ln(2\pi)\\
+	 &= -\frac{1}{2} (x_{1}² + x_{2}²) + ln(0.6) - ln(2 \pi)\\ \\
+g_{2}(x) &= -\frac{1}{2} \frac{1}{0.75} ((x_{1}, x_{2}) - (1, 1)')' \begin{pmatrix} 1 & -0.5 \\ -0.5 & 1 \end{pmatrix}
+((x_{1}, x_{2}) - (1, 1)') - \frac{1}{2} ln(1) + ln(0.4) - \frac{2}{2} ln(2\pi)\\
+	 &= -\frac{1}{2} \frac{1}{0.75} ((x_{1} - 1)² + (x_{2} - 1)² + (x_{1} - 1)(x_{2} - 1)) + ln(0.4) - ln(2 \pi)\\ \\
+g_{1}(x) = g_{2}(x) &\Leftrightarrow -\frac{1}{2} (x_{1}² + x_{2}² -\frac{1}{0.75} (x_{1} - 1)² - 2\frac{-0.5}{0.75} (x_{1} - 1) x_{2}
++ \frac{1}{0.75} (x_{2} - 1)²) - ln\begin{pmatrix} \frac{3\sqrt{3}}{2} \end{pmatrix} = 0
+\end{align*}\\
+Nous pouvons remarquer que les équations des trois premiers cas sont des droites et que les deux dernières équations correspondent
+aux équations d'un cercle et d'une ellipse.
 
+\newpage
 \subsection*{2. Simulation de la règle de Bayes dans R :}
 Pour chacune des cinq populations précédentes, en utilisant la fonction \textit{simul} réalisée au TD3 (Théorie de la décision),
 nous avons généré un échantillon de taille \textit{n} = 1000.\\ \\
@@ -109,32 +113,30 @@ avec le tracé de la frontière de décision pour les trois premiers cas :\\
 \includegraphics[height = 7cm, width = 7cm]{plots/exo1_simul_2.png}\\
 \includegraphics[height = 7cm, width = 7cm]{plots/exo1_simul_3.png}
 \includegraphics[height = 7cm, width = 7cm]{plots/exo1_simul_4.png}\\
-\includegraphics[height = 7cm, width = 7cm]{plots/exo1_simul_5.png}\\ \\
-%TODO frontière de décision pour les 3 premiers cas.
-Pour chaque cas de figure, nous avons déterminé l'expression d'un estimateur de la probabilité d'erreur,
-ainsi que sa réalisation sur l'échantillon correspondant :\\
+\includegraphics[height = 7cm, width = 7cm]{plots/exo1_simul_5.png}
+\newpage \noindent
 % TODO expression d'un estimateur de la probabilité d'erreur
-Sa réalisation sur les échantillons nous donne les valeur suivantes :\\ \\
+Pour chaque cas de figure, nous avons déterminé l'expression d'un estimateur de la probabilité d'erreur,
+ainsi que sa réalisation sur l'échantillon correspondant. Pour les trois premiers cas, nous avons été en mesure de calculer l'erreur
+théorique de la règle de Bayes.\\
+Sa réalisation sur les échantillons nous donne les valeurs suivantes :\\ \\
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 population & $\mu_{1}$ & $\mu_{2}$ & Erreur estimée ($\%$) & Erreur théorique ($\%$) \\
 \hline
-1 & (-0.028, -0.093) & (1.062, 0.981) & 27.6 & NA \\
+1 & (-0.028, -0.093) & (1.062, 0.981) & 27.6 & 25.3 \\
 \hline
-2 & (0.346, 0.006) & (1.015, 0.982) & 31.1 & NA \\
+2 & (0.346, 0.006) & (1.015, 0.982) & 31.1 & 26.1 \\
 \hline
-3 & (-0.063, -0.045) & (1.036, 0.915) & 30.6 & NA \\
+3 & (-0.063, -0.045) & (1.036, 0.915) & 30.6 & 25.6 \\
 \hline
 4 & (1.018, 0.919) & (1.221, 0.965) & 49 & NA \\
 \hline
 5 & (-0.127, -0.018) & (1.001, 1.002) & 28.2 & NA \\
 \hline
 \end{tabular}
-$\\ \\$
-Cela nous a permis de le comparer avec la probabilité d'erreur théorique.
-% TODO probabilité d'erreur théorique
-
-\newpage
+$\\ \\ \\$
+Nous pouvons observer que pour les trois premiers cas, nous avons une erreur estimée semblables à l'erreur théorique.\\ \\ \\
 \section*{Exercice 2 : Analyse discriminante sur les données \textit{Crabes}.}
 Dans cet exercice, nous désirons utiliser l'analyse discriminante linéaire et l'analyse discriminante\\quadratique sur les données \textit{crabs}
 afin de déterminer une fonction permettant de distinguer le sexe à partir des mesures \textit{FL} et \textit{RW}.\\
@@ -157,8 +159,9 @@ projette les données sur les discriminantes linéaires.
 Cette fonction centre les discriminants linéaires de sorte que le nombre moyen pondéré des centres de gravité du groupe soit à l'origine.\\ \\
 \textbf{Comparaison entre predict et predict.lda :} predict.lda() est une méthode de la fonction générique predict() pour la classe \textit{lda}.
 On peut soit appeler predict() sur une classe lda d'un objet spécifié ou
-appeler la fonction predict.lda() sans se soucier de la classe de l'objet.\\ \\
+appeler la fonction predict.lda() sans se soucier de la classe de l'objet.
 
+\newpage
 \subsection*{2. L'analyse discriminante quadratique et l'analyse discriminante linéaire des données \textit{crabs} :}
 Nous avons d'abord effectué ces deux analyses sur les données \textit{crabs} en prenant comme échantillon d'apprentissage l'ensemble des données.\\
 nous avons ensuite tracé les frontières de décision que nous avons obtenu (verte pour la lda et magenta pour la qda) :\\
@@ -179,8 +182,9 @@ qda & 8.5\\
 Nous pouvons observer d'après ces deux valeurs que l'analyse discrimante linéaire semble moins précise que l'analyse discrimante quadratique
 vu que la probabilité d'erreur pour la première est plus grande que la seconde.\\
 Pour notre jeu de données, nous pouvons dire que les crabes ont sensiblement plus de chances d'être mieux classés avec l'analyse discrimante
-quadratique qu'avec l'analyse discrimante linéaire.\\ \\
+quadratique qu'avec l'analyse discrimante linéaire.
 
+\newpage
 \subsection*{3. Estimation des erreurs de classification sur un ensemble d'apprentissage (2/3 des exemples au hasard)
 et un ensemble de test (1/3 restants) :}
 Dans un premier temps, nous nous sommes chargés de répartir aléatoirement les données \textit{crabs} afin d'obtenir nos échantillons
@@ -219,7 +223,9 @@ dans la répartition des crabes dans les classes \textit{F} et \textit{M}.\\ \\
 D'après la répétition du cacul des estimations de classification des crabes, nous pouvons dire que les deux analyses rangent les crabes
 avec une estimation d'erreur quelque peu différentes.
 L'analyse discrimante quadratique semble plus précise, comme vu dans la question précédente, que l'analyse discriminante linéaire,
-mais il n'est pas possible de dire que cette dernière donnera forcément de moins bons résultats que la première.
+mais il n'est pas possible de dire que cette dernière donnera forcément de moins bons résultats que la première.\\
+\includegraphics[height = 7cm, width = 7cm]{plots/exo2_a_10.png}
+\includegraphics[height = 7cm, width = 7cm]{plots/exo2_a_11.png}\\
 
 \newpage
 \subsection*{4. Répétition du calcul précédent en modifiant les proportions de\\découpage :}
@@ -255,9 +261,12 @@ qda & 5.56 & 4.54 & 11.11 & 9.61 \\
 \hline
 \end{tabular}\\
 \textit{Ensemble de test (1/2 des exemples au hasard)}\\ \\
+\includegraphics[height = 7cm, width = 7cm]{plots/exo2_a_20.png}
+\includegraphics[height = 7cm, width = 7cm]{plots/exo2_a_21.png}\\
 Grâce à cet ensemble de test, il est possible de dire que dans certains cas, il y a autant de chances que l'analyse discriminante quadratique
 soit assujettie aux mêmes erreurs de classification des éléments des données que l'analyse discriminante linéaire
-(au vu des deux derniers échantillons).\\ \\
+(au vu des deux derniers échantillons).
+\newpage \noindent
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 \textbf{Ensemble d'apprentissage} & \multicolumn{4}{|c|}{Estimation d'erreur ($\%$)} \\
@@ -283,16 +292,15 @@ qda & 0 & 3.33 & 0 & 5.40 \\
 \hline
 \end{tabular}\\
 \textit{Ensemble de test (1/5 des exemples au hasard)}\\ \\
+\includegraphics[height = 7cm, width = 7cm]{plots/exo2_a_30.png}
+\includegraphics[height = 7cm, width = 7cm]{plots/exo2_a_31.png}\\
 Pour des groupes faibles d'éléments, les analyse discriminantes quadratique et linéaire peuvent avoir une probabilité d'erreur de classification
 proche de zéro ou au contraire avoir une probabilité d'erreur proche de celle pour un grand nombre d'exemple
 (le dernier échantillon tiré au hasard).\\ \\
 
-\section*{Exercice 3 :}
-
-\subsection*{}
-\subsection*{}
-\subsection*{}
-
 \section*{Conclusion}
+Dans le cadre de ce tp, nous avons pu expérimenter les analyses discriminantes quadratique et linéaire, leurs différences et leurs similitudes.
+Nous sommes en mesure de dire que l'analyse discriminante quadratique est plus lourde que l'analyse discriminante linéaire mais qu'elle
+nous permet d'avoir des résultats généralement plus précis.
 
 \end{document}

@@ -68,9 +68,6 @@ repet_esti <- function (D, n, ft_ech) {
 
 	result = matrix(c(0, 0, 0, 0), 4, 4, dimnames = list(c("a.lda", "a.qda", "t.lda", "t.qda"), c("1", "2", "3", "4")))
 	
-#	png(file = "plots/exo2_analyse_app1.png")
-#	plot(D[ ,1:2], col = couleur[D$sex], pch = 20, main = "Donnees Crabs selon le sexe")
-
 	# Répétition du processus de sélection d'exemples et d'estimation d'erreur
 	for (i in 1:4) {
 		r = ft_ech(D, n)
@@ -98,9 +95,6 @@ repet_esti <- function (D, n, ft_ech) {
 		qy <- predict(a.qda, r[r[ ,4] == 0, 1:2])
 		a.qda_erreur <- sum(qy$class != r[r[ ,4] == 0, ]$sex) / nn
 		grille = data.frame(expand.grid(FL1 = x1p, RW1 = x2p))
-#		contour(x1p, x2p, matrix(lyp, len), add = TRUE, levels = 0, drawlabels = FALSE, col = 'green')
-#		contour(x1p, x2p, matrix(qyp, len), add = TRUE, levels = 0, drawlabels = FALSE, col = 'magenta')
-
 
 		# Estimation d'erreur sur l'échantillon de test
 		t.lda = lda(r[r[ ,4] == 1, 1:2], r[r[ ,4] == 1, ]$sex)
@@ -122,9 +116,6 @@ repet_esti <- function (D, n, ft_ech) {
 		qy <- predict(t.qda, r[r[ ,4] == 1, 1:2])
 		t.qda_erreur <- sum(qy$class != r[r[ ,4] == 1, ]$sex) / nn
 		
-#		contour(x3p, x4p, matrix(lyp, len), add = TRUE, levels = 0, drawlabels = FALSE, col = 'green')
-#		contour(x3p, x4p, matrix(qyp, len), add = TRUE, levels = 0, drawlabels = FALSE, col = 'magenta')
-
 		result[1, i] = a.lda_erreur
 		result[2, i] = a.qda_erreur
 		result[3, i] = t.lda_erreur
@@ -173,6 +164,146 @@ ech_crabs3 <- function (data, n) {
 }
 question4_2 = repet_esti(D, n, ech_crabs3)
 
+
+
+
+png(file = "plots/exo2_a_10.png")
+plot(D[ ,1:2], col = couleur[D$sex], pch = 20, main = "Echantillon d'apprentissage 1")
+
+for (i in 1:4) {
+	r = ech_crabs1(D, n)
+
+	# Estimation d'erreur sur l'échantillon d'apprentissage
+	a.lda = lda(r[r[ ,4] == 0, 1:2], r[r[ ,4] == 0, ]$sex)
+	
+	grille = data.frame(expand.grid(FL1 = x1p, RW1 = x2p))
+
+	# Frontière de décision pour la lda
+	ly = predict(a.lda, grille)
+	lyp = ly$post[ ,1] - ly$post[ ,2]
+
+	x1p = seq(min(r[r[ ,4] == 0, ]$FL1), max(r[r[ ,4] == 0, ]$FL1), length = len)
+	x2p = seq(min(r[r[ ,4] == 0, ]$RW1), max(r[r[ ,4] == 0, ]$RW1), length = len)
+	
+	contour(x1p, x2p, matrix(lyp, len), add = TRUE, levels = 0, drawlabels = FALSE, col = 'green')
+
+}
+dev.off()
+
+png(file = "plots/exo2_a_11.png")
+plot(D[ ,1:2], col = couleur[D$sex], pch = 20, main = "Echantillon de test 1")
+
+for (i in 1:4) {
+	r = ech_crabs1(D, n)
+
+	# Estimation d'erreur sur l'échantillon d'apprentissage
+	a.lda = lda(r[r[ ,4] == 1, 1:2], r[r[ ,4] == 1, ]$sex)
+	
+	grille = data.frame(expand.grid(FL1 = x1p, RW1 = x2p))
+
+	# Frontière de décision pour la lda
+	ly = predict(a.lda, grille)
+	lyp = ly$post[ ,1] - ly$post[ ,2]
+
+	x1p = seq(min(r[r[ ,4] == 1, ]$FL1), max(r[r[ ,4] == 1, ]$FL1), length = len)
+	x2p = seq(min(r[r[ ,4] == 1, ]$RW1), max(r[r[ ,4] == 1, ]$RW1), length = len)
+	
+	contour(x1p, x2p, matrix(lyp, len), add = TRUE, levels = 0, drawlabels = FALSE, col = 'magenta')
+
+}
+dev.off()
+
+png(file = "plots/exo2_a_20.png")
+plot(D[ ,1:2], col = couleur[D$sex], pch = 20, main = "Echantillon d'apprentissage 2")
+
+for (i in 1:4) {
+	r = ech_crabs2(D, n)
+
+	# Estimation d'erreur sur l'échantillon d'apprentissage
+	a.lda = lda(r[r[ ,4] == 0, 1:2], r[r[ ,4] == 0, ]$sex)
+	
+	grille = data.frame(expand.grid(FL1 = x1p, RW1 = x2p))
+
+	# Frontière de décision pour la lda
+	ly = predict(a.lda, grille)
+	lyp = ly$post[ ,1] - ly$post[ ,2]
+
+	x1p = seq(min(r[r[ ,4] == 0, ]$FL1), max(r[r[ ,4] == 0, ]$FL1), length = len)
+	x2p = seq(min(r[r[ ,4] == 0, ]$RW1), max(r[r[ ,4] == 0, ]$RW1), length = len)
+	
+	contour(x1p, x2p, matrix(lyp, len), add = TRUE, levels = 0, drawlabels = FALSE, col = 'green')
+
+}
+dev.off()
+
+png(file = "plots/exo2_a_21.png")
+plot(D[ ,1:2], col = couleur[D$sex], pch = 20, main = "Echantillon de test 2")
+
+for (i in 1:4) {
+	r = ech_crabs2(D, n)
+
+	# Estimation d'erreur sur l'échantillon d'apprentissage
+	a.lda = lda(r[r[ ,4] == 1, 1:2], r[r[ ,4] == 1, ]$sex)
+	
+	grille = data.frame(expand.grid(FL1 = x1p, RW1 = x2p))
+
+	# Frontière de décision pour la lda
+	ly = predict(a.lda, grille)
+	lyp = ly$post[ ,1] - ly$post[ ,2]
+
+	x1p = seq(min(r[r[ ,4] == 1, ]$FL1), max(r[r[ ,4] == 1, ]$FL1), length = len)
+	x2p = seq(min(r[r[ ,4] == 1, ]$RW1), max(r[r[ ,4] == 1, ]$RW1), length = len)
+	
+	contour(x1p, x2p, matrix(lyp, len), add = TRUE, levels = 0, drawlabels = FALSE, col = 'magenta')
+
+}
+dev.off()
+
+png(file = "plots/exo2_a_30.png")
+plot(D[ ,1:2], col = couleur[D$sex], pch = 20, main = "Echantillon d'apprentissage 3")
+
+for (i in 1:4) {
+	r = ech_crabs3(D, n)
+
+	# Estimation d'erreur sur l'échantillon d'apprentissage
+	a.lda = lda(r[r[ ,4] == 0, 1:2], r[r[ ,4] == 0, ]$sex)
+	
+	grille = data.frame(expand.grid(FL1 = x1p, RW1 = x2p))
+
+	# Frontière de décision pour la lda
+	ly = predict(a.lda, grille)
+	lyp = ly$post[ ,1] - ly$post[ ,2]
+
+	x1p = seq(min(r[r[ ,4] == 0, ]$FL1), max(r[r[ ,4] == 0, ]$FL1), length = len)
+	x2p = seq(min(r[r[ ,4] == 0, ]$RW1), max(r[r[ ,4] == 0, ]$RW1), length = len)
+	
+	contour(x1p, x2p, matrix(lyp, len), add = TRUE, levels = 0, drawlabels = FALSE, col = 'green')
+
+}
+dev.off()
+
+png(file = "plots/exo2_a_31.png")
+plot(D[ ,1:2], col = couleur[D$sex], pch = 20, main = "Echantillon de test 3")
+
+for (i in 1:4) {
+	r = ech_crabs3(D, n)
+
+	# Estimation d'erreur sur l'échantillon d'apprentissage
+	a.lda = lda(r[r[ ,4] == 1, 1:2], r[r[ ,4] == 1, ]$sex)
+	
+	grille = data.frame(expand.grid(FL1 = x1p, RW1 = x2p))
+
+	# Frontière de décision pour la lda
+	ly = predict(a.lda, grille)
+	lyp = ly$post[ ,1] - ly$post[ ,2]
+
+	x1p = seq(min(r[r[ ,4] == 1, ]$FL1), max(r[r[ ,4] == 1, ]$FL1), length = len)
+	x2p = seq(min(r[r[ ,4] == 1, ]$RW1), max(r[r[ ,4] == 1, ]$RW1), length = len)
+	
+	contour(x1p, x2p, matrix(lyp, len), add = TRUE, levels = 0, drawlabels = FALSE, col = 'magenta')
+
+}
+dev.off()
 
 
 # ANNEXE.
