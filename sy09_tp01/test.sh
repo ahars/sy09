@@ -1,1 +1,1 @@
-../docker/launch-docker.sh exercices/test.R
+../docker/launch-docker.sh rscripts/test.R
